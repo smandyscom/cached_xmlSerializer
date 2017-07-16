@@ -12,7 +12,7 @@ namespace xmlSerializerDemo
         {
            var __serializer1 =  utilities.getSerializer(typeof(theBaseClass1),new Type[]{typeof(theDerivedClass1)});
            var __serializer2 =  utilities.getSerializer(typeof(theBaseClass1),new Type[]{typeof(theDerivedClass1)});
-           Console.WriteLine(__serializer1.Equals(__serializer2));
+           Console.WriteLine(__serializer1.Equals(__serializer2)); //check if the cached serializer fetched
 
            var __serializer3 = utilities.getSerializer(typeof(theBaseClass2),new Type[]{typeof(theDerivedClass2)});
            Console.WriteLine(__serializer3.Equals(__serializer1));
