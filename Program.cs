@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace xmlSerializerDemo
 {
@@ -9,13 +9,15 @@ namespace xmlSerializerDemo
     {
         static void Main(string[] args)
         {
+            utilities.getSerializer(typeof(theBaseClass1),new Type[]{typeof(theDerivedClass1)});
+            utilities.getSerializer(typeof(theBaseClass1),new Type[]{typeof(theDerivedClass1)});
         }
     }
-    class theBaseClassBranch1{
-
+    public class theBaseClass1{
+        int field1 = 0;
     }
-    class theDerivedClassBranch1{
-        
+    public class theDerivedClass1{
+        int field2 = 0;
     }
 
     class utilities
@@ -24,25 +26,30 @@ namespace xmlSerializerDemo
         /// Used to store typelist-serializer pair
         /// </summary>
         /// <returns></returns>
-    private static Hashtable __dictionary = new Hashtable(); 
+        
+        private static Hashtable __dictionary = new Hashtable(); 
+        
+        public static XmlSerializer getSerializer(Type mainType,Type[] extraTypes){
+            
+            //merge the list
+            List<Type> __typeList = new List<Type>();
 
-    public static XmlSerializer getSerializer(Type mainType,Type[] extraTypes){
-          //merge the list
-          List<Type> __typeList = new List<Type>();
+            __typeList.Add(mainType);
+            __typeList.AddRange(extraTypes);
 
-          __typeList.Add(mainType);
-          __typeList.AddRange(extraTypes);
-
-         if (__dictionary.ContainsKey(__typeList)){
-             // this kind of serializer had been cached/used before , 
-             // get the cached serializer
-             return (XmlSerializer)__dictionary[__typeList];
-         }
-         else{
-             // never been used , need to create a new one and push into cache
-             XmlSerializer __serializer = new XmlSerializer(mainType,extraTypes);
-             __dictionary.Add(__typeList,__serializer);
-             return __serializer;
-      }
-    }
-}
+            if (__dictionary.ContainsKey(__typeList))
+            {
+                // this kind of serializer had been cached/used before , 
+                // get the cached serializer
+                return (XmlSerializer)__dictionary[__typeList];
+                }
+            else
+            {
+                // never been used , need to create a new one and push into cache
+                XmlSerializer __serializer = new XmlSerializer(mainType,extraTypes);
+                __dictionary.Add(__typeList,__serializer);
+                return __serializer;
+             }
+        }//getserializer
+    }//utilities
+}//namspace
