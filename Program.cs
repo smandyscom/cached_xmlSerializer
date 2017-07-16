@@ -38,17 +38,27 @@ namespace xmlSerializerDemo
     class utilities
     {
         /// <summary>
-        /// Used to store typelist-serializer pair
+        /// Used to store key-serializer
         /// </summary>
         /// <returns></returns>
-        
         private static Hashtable __dictionary = new Hashtable(); 
-        
+        /// <summary>
+        /// Generate key according to contents of type list
+        /// </summary>
+        /// <param name="typeList"></param>
+        /// <returns></returns>
         protected static int generateKey(List<Type> typeList)
         {
             //hash code summarize
            return typeList.Sum(__type => __type.GetHashCode());
         }
+        /// <summary>
+        /// Always fetch serializer from this function
+        /// (Never allocate by yourself)
+        /// </summary>
+        /// <param name="mainType"></param>
+        /// <param name="extraTypes"></param>
+        /// <returns></returns>
         public static XmlSerializer getSerializer(Type mainType,Type[] extraTypes){
             
             //merge the list
